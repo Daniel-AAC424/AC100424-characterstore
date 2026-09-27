@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8"><title>Migraciones</title></head>
+<body>
+  <h1>Migraciones</h1>
+  <form action="/admin/migraciones/simpsons" method="post">
+    <button type="submit">Migrar personajes de The Simpsons</button>
+  </form>
+  <form action="/admin/migraciones/rick-and-morty" method="post">
+    <button type="submit">Migrar personajes de Rick and Morty</button>
+  </form>
+
+  <p th:if="${mensaje}" th:text="${mensaje}"></p>
+  <a href="/productos">Ir a la tienda</a>
+</body>
+</html>

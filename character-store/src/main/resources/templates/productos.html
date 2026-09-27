@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Character Store</title>
+  <link rel="stylesheet" href="/css/store.css">
+</head>
+<body>
+<header class="topbar">
+  <a class="logo" href="/productos">Character Store</a>
+  <a href="/carrito">Carrito</a>
+</header>
+
+<main class="contenedor">
+  <section class="hero">
+    <h1>Personajes que ahora son productos</h1>
+    <p>Catálogo importado desde APIs externas y persistido en MySQL.</p>
+  </section>
+
+  <form class="filtros" method="get" action="/productos">
+    <input name="q" th:value="${q}" placeholder="Buscar personaje...">
+    <select name="universo">
+      <option value="">Todos los universos</option>
+      <option value="SIMPSONS">The Simpsons</option>
+	  <option value="RICK_MORTY">Rick and Morty</option>
+    </select>
+    <button>Buscar</button>
+  </form>
+
+  <section class="grid">
+    <article class="card" th:each="p : ${productos}">
+      <img th:src="${p.imagen}" alt="Personaje">
+      <div class="card-body">
+        <span class="badge" th:text="${p.universo}"></span>
+        <h2 th:text="${p.nombre}"></h2>
+        <p th:text="${p.atributoPrincipal}"></p>
+        <strong>$<span th:text="${#numbers.formatDecimal(p.precio,1,2)}"></span></strong>
+        <a th:href="@{/productos/{id}(id=${p.id})}">Ver producto</a>
+      </div>
+    </article>
+  </section>
+</main>
+</body>
+</html>
+	

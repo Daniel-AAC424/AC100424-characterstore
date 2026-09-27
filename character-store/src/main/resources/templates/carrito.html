@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Carrito</title>
+  <link rel="stylesheet" href="/css/store.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="logo" href="/productos">Character Store</a>
+    <a href="/carrito">Carrito</a>
+  </header>
+
+  <main class="contenedor">
+    <section class="hero">
+      <h1>Tu carrito</h1>
+      <p th:text="${items.isEmpty()} ? 'Todavía no agregaste productos.' : 'Revisa los productos antes de continuar.'">Revisa los productos.</p>
+    </section>
+
+    <p class="vacio" th:if="${items.isEmpty()}">
+      Tu carrito está vacío. <a th:href="@{/productos}">Ver catálogo</a>
+    </p>
+
+    <section class="carrito-layout" th:unless="${items.isEmpty()}">
+      <div class="card">
+        <article class="fila-carrito" th:each="item : ${items}">
+          <a class="fila-img" th:href="@{/productos/{id}(id=${item.producto.id})}">
+            <img th:src="${item.producto.imagen}" th:alt="${item.producto.nombre}">
+          </a>
+
+          <div class="fila-info">
+            <span class="badge" th:text="${item.producto.universo}"></span>
+            <a class="fila-nombre" th:href="@{/productos/{id}(id=${item.producto.id})}"
+               th:text="${item.producto.nombre}">Nombre</a>
+            <span class="fila-precio-unit"
+                  th:text="'$' + ${#numbers.formatDecimal(item.producto.precio,1,2)}">$0.00</span>
+          </div>
+
+          <div class="fila-cant">
+            <span class="muted">Cantidad</span>
+            <strong th:text="${item.cantidad}">1</strong>
+          </div>
+
+          <strong class="fila-subtotal"
+                  th:text="'$' + ${#numbers.formatDecimal(item.subtotal,1,2)}">$0.00</strong>
+        </article>
+      </div>
+
+      <aside class="card resumen">
+        <h2>Resumen de la orden</h2>
+        <table class="tabla-resumen">
+          <tbody>
+            <tr>
+              <th scope="row">Productos</th>
+              <td th:text="${items.size()}">0</td>
+            </tr>
+            <tr>
+              <th scope="row">Unidades</th>
+              <td th:text="${#aggregates.sum(items.![cantidad])}">0</td>
+            </tr>
+            <tr>
+              <th scope="row">Subtotal</th>
+              <td th:text="'$' + ${#numbers.formatDecimal(total,1,2)}">$0.00</td>
+            </tr>
+            <tr>
+              <th scope="row">Envío</th>
+              <td class="gratis">Gratis</td>
+            </tr>
+            <tr class="fila-total">
+              <th scope="row">Total</th>
+              <td th:text="'$' + ${#numbers.formatDecimal(total,1,2)}">$0.00</td>
+            </tr>
+          </tbody>
+        </table>
+        <a class="btn" th:href="@{/productos}">Seguir comprando</a>
+      </aside>
+    </section>
+  </main>
+</body>
+</html>
